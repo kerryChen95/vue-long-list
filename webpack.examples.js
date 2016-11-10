@@ -2,6 +2,8 @@ let path = require('path')
 let webpack = require('webpack')
 let HtmlWebpackPlugin = require('html-webpack-plugin')
 let CleanWebpackPlugin = require('clean-webpack-plugin')
+let precss = require('precss')
+let cssNext = require('postcss-cssnext')
 
 module.exports = {
   entry: './src/examples/main.js',
@@ -21,7 +23,19 @@ module.exports = {
   vue: {
     loaders: {
       js: 'babel',
+      css: 'style!css',
     },
+    postcss: [
+      cssNext(),
+    ],
+    // cssnext中已经包含有了autoprefixer
+    autoprefixer: false,
+  },
+  postcss () {
+    return [
+      precss(),
+      cssNext(),
+    ]
   },
   plugins: [
     new CleanWebpackPlugin(['dist/examples']),

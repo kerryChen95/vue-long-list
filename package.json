@@ -4,7 +4,7 @@
   "description": "High performance long list for Vue.js",
   "main": "vue-long-list.js",
   "scripts": {
-    "examples": "webpack --config webpack.examples.js -d --devtool eval --watch --progress --colors"
+    "examples": "webpack --config webpack.examples.js -d --devtool cheap-source-map --watch --progress --colors"
   },
   "repository": {
     "type": "git",
@@ -33,6 +33,9 @@
     "clean-webpack-plugin": "^0.1.13",
     "css-loader": "^0.25.0",
     "html-webpack-plugin": "^2.24.1",
+    "postcss-cssnext": "^2.8.0",
+    "precss": "^1.4.0",
+    "style-loader": "^0.13.1",
     "vue": "^1.0.28",
     "vue-hot-reload-api": "^1.2.0",
     "vue-html-loader": "^1.0.0",
