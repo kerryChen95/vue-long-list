@@ -125,11 +125,6 @@ export default {
         if (itemsPerRow >= 1 && uniformSizePerRow > 0) {
           offset = Math.floor(renderStart / itemsPerRow) * uniformSizePerRow
         }
-        console.debug({
-          renderStart,
-          scrollParentScrollTop: this.getScrollParent().scrollTop,
-          translateY: offset,
-        })
       }
       return offset
     },
@@ -147,7 +142,6 @@ export default {
   },
 
   ready () {
-    console.debug('ready')
     this.itemsPerRow = this.calcItemsPerRow()
     this.uniformSizePerRow = this.calcUniformSizePerRow()
     // TODO: calc again when `this.length` changes
@@ -204,9 +198,7 @@ export default {
       }
     },
 
-    updateUniformFrame (event) {
-      console.debug('updateUniformFrame: %O', event)
-
+    updateUniformFrame () {
       const {
         OFFSET_START, OFFSET_SIZE, SCROLL_START, SCROLL_SIZE,
         length, rowsPerPage, bufferZone,
