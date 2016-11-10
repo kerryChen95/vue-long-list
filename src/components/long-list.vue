@@ -50,10 +50,6 @@ export default {
       twoWay: true,
       validator: renderLength => renderLength >= 0,
     },
-    rowsPerPage: {
-      type: Number,
-      default: 10,
-    },
     // the number of pixels to buffer at both beginning and end of rendered
     // items
     bufferZone: {
@@ -201,7 +197,7 @@ export default {
     updateUniformFrame () {
       const {
         OFFSET_START, OFFSET_SIZE, SCROLL_START, SCROLL_SIZE,
-        length, rowsPerPage, bufferZone,
+        length, bufferZone,
         itemsPerRow, uniformSizePerRow, slidingBlockOffset,
       } = this
       if (uniformSizePerRow <= 0) return
