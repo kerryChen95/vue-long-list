@@ -2,8 +2,10 @@
   "name": "vue-long-list",
   "version": "0.0.1",
   "description": "High performance long list for Vue.js",
-  "main": "vue-long-list.js",
+  "main": "dist/vue-long-list.js",
   "scripts": {
+    "dev": "webpack --config webpack.main.js -d --watch --progress --colors",
+    "production": "webpack --config webpack.main.js --progress --colors",
     "examples": "webpack --config webpack.examples.js -d --devtool cheap-source-map --watch --progress --colors"
   },
   "repository": {

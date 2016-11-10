@@ -1,5 +1,5 @@
 <script>
-import {LongList, LongListItem} from '..'
+import {LongList, LongListItem} from '../../dist/vue-long-list'
 
 export default {
   data () {
