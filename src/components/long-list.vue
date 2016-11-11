@@ -1,6 +1,6 @@
 <template lang="html">
   <div :style="upholderStyle" v-el:upholder>
-    <div :style="slidingBlockStyle" v-el:sliding-block>
+    <div :class="itemsCtnClass" :style="slidingBlockStyle" v-el:sliding-block>
       <slot></slot>
     </div>
   </div>
@@ -66,6 +66,9 @@ export default {
       type: Function,
     },
     itemsCtnStyle: {
+      type: Object,
+    },
+    itemsCtnClass: {
       type: Object,
     },
   },
