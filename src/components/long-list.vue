@@ -141,14 +141,17 @@ export default {
   },
 
   ready () {
+    const {mode} = this
     this.itemsPerRow = this.calcItemsPerRow()
-    this.uniformSizePerRow = this.calcUniformSizePerRow()
+    this.scrollParent = this.calcScrollParent()
+    if (mode === 'uniform') {
+      this.uniformSizePerRow = this.calcUniformSizePerRow()
+    }
     // TODO: calc again when `this.length` changes
     // for the case that `this.length` changes from 0 to a positive number
 
     this.updateFrame()
-    this.getScrollParent()
-      .addEventListener('scroll', this.updateFrame, false)
+    this.scrollParent.addEventListener('scroll', this.updateFrame, false)
   },
 
   methods: {
@@ -209,11 +212,10 @@ export default {
       let renderEnd = renderStart + renderLength - 1
 
       const {slidingBlock} = this.$els
-      const scrollParent = this.getScrollParent()
-      const scrollParentScrollStart = scrollParent[SCROLL_START]
+      const scrollParentScrollStart = this.getScrollParentScrollStart()
       const scrollParentScrollEnd =
         // always re-calc size for the case of resize scroll parent
-        scrollParentScrollStart + this.calcScrollParentSize()
+        scrollParentScrollStart + this.getScrollParentSize()
 
       const secondRowOffsetStart = slidingBlockOffset + uniformSizePerRow
       const lastSecondRowOffsetEnd =
@@ -275,7 +277,8 @@ export default {
       this.renderLength = renderEnd - renderStart + 1
     },
 
-    getScrollParent () {
+    // scroll parent is who trigger scroll event.
+    calcScrollParent () {
       const {axis, scrollParentProvider} = this
       if (scrollParentProvider) return scrollParentProvider()
       const {OVERFLOW} = this
@@ -291,9 +294,21 @@ export default {
       return window
     },
 
-    calcScrollParentSize () {
-      const {INNER_SIZE, CLIENT_SIZE} = this
-      const scrollParent = this.getScrollParent()
+    // `window` can trigger scroll event, but it has no property `SCROLL_START`,
+    // but you can pick the same info from `document.body` or
+    // `document.documentElement`.
+    getScrollParentScrollStart () {
+      const {SCROLL_START, scrollParent} = this
+      return scrollParent === window ?
+        // On Firefox, `document.body[SCROLL_START]` always is 0,
+        // on Chrome/Safari, `document.documentElement[SCROLL_START]`
+        // always is 0.
+        document.body[SCROLL_START] || document.documentElement[SCROLL_START] :
+        scrollParent[SCROLL_START]
+    },
+
+    getScrollParentSize () {
+      const {INNER_SIZE, CLIENT_SIZE, scrollParent} = this
       return scrollParent[scrollParent === window ? INNER_SIZE : CLIENT_SIZE]
     },
   },
