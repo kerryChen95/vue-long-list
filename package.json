@@ -4,9 +4,10 @@
   "description": "High performance long list for Vue.js",
   "main": "dist/vue-long-list.js",
   "scripts": {
-    "prepublish": "webpack --config webpack.main.js --progress --colors",
+    "prepublish": "npm run production",
+    "production": "webpack --config webpack.main.js --progress --colors",
     "dev": "webpack --config webpack.main.js -d --watch --progress --colors",
-    "examples": "webpack --config webpack.examples.js -d --devtool cheap-source-map --watch --progress --colors"
+    "examples": "npm run production && webpack --config webpack.examples.js -d --devtool cheap-source-map --progress --colors"
   },
   "repository": {
     "type": "git",
