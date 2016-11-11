@@ -1,0 +1,1 @@
+# just override .gitignore to publish dist* to npm
