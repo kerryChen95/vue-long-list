@@ -50,11 +50,9 @@ export default {
 </long-list>
 ```
 
-## Runnable Example
+## Runnable Examples
 
-```
-git clone git@github.com:kerryChen95/vue-long-list.git
-cd vue-long-list
-npm run examples
-# then open `dist-examples/index.html` by browser
-```
+1. Clone this repo
+2. `npm install`
+3. `npm run examples`
+4. open `dist-examples/index.html` by browser
