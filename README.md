@@ -2,9 +2,9 @@
 
 High performance long list for Vue.js (Currently only Vue.js@1.x).
 
+* Support multiple items per line.
 * Support scroll on y/x axis.
-* Suuport multiple items per line.
-* Currently only support all items has uniform sizes.
+* Currently only support all items are at uniform size.
 
 ## Example
 
