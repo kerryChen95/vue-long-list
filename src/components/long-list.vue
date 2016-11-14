@@ -37,6 +37,7 @@ export default {
     length: {
       required: true,
       type: Number,
+      validator: length => length >= 0,
     },
     renderStart: {
       required: true,
@@ -78,6 +79,11 @@ export default {
       itemsPerRow: DEFAULT_ITEMS_PER_ROW,
       uniformSizePerRow: DEFAULT_UNIFORM_SIZE_PER_ROW,
     }
+  },
+
+  watch: {
+    // for the case that `length` changes from 0 to a positive number.
+    length: 'updateRowInfo',
   },
 
   computed: {
@@ -141,20 +147,22 @@ export default {
   },
 
   ready () {
-    const {mode} = this
-    this.itemsPerRow = this.calcItemsPerRow()
     this.scrollParent = this.calcScrollParent()
-    if (mode === 'uniform') {
-      this.uniformSizePerRow = this.calcUniformSizePerRow()
-    }
-    // TODO: calc again when `this.length` changes
-    // for the case that `this.length` changes from 0 to a positive number
+    this.updateRowInfo()
 
     this.updateFrame()
     this.scrollParent.addEventListener('scroll', this.updateFrame, false)
   },
 
   methods: {
+    updateRowInfo () {
+      const {mode} = this
+      this.itemsPerRow = this.calcItemsPerRow()
+      if (mode === 'uniform') {
+        this.uniformSizePerRow = this.calcUniformSizePerRow()
+      }
+    },
+
     // @return {Number}
     // we assume that every row has the same count of items,
     // call this method after component DOM ready.
