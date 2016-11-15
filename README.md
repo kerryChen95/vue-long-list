@@ -36,6 +36,7 @@ export default {
   :render-length.sync="listRenderLength"
 >
   <!--
+  <long-list-item> should be the only children of <long-list>.
   For better performance, track by id from item data if exist, otherwise by the
   index of whole list, instead of by the index of `limitBy` filter's iteration
   which always count index from 0 even when `listRenderStart` is not 0.
@@ -44,8 +45,14 @@ export default {
     v-for="itemData in listData | limitBy listRenderLength listRenderStart"
     :track-by="listRenderStart + $index"
   >
-    <!-- render item data as you want -->
-    {{itemData}}
+    <!--
+    Render item data as you want.
+    There is no any DOM element of <long-list-item>, only `.item` elements
+    provided by you, so you can style each item as you want.
+    -->
+    <div class="item">
+      {{itemData}}
+    </div>
   </long-list-item>
 </long-list>
 ```
