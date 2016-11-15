@@ -72,6 +72,9 @@ export default {
     itemsCtnClass: {
       type: Object,
     },
+    proxyScrollHandler: {
+      type: Function,
+    },
   },
 
   data () {
@@ -84,6 +87,17 @@ export default {
   watch: {
     // for the case that `length` changes from 0 to a positive number.
     length: 'updateRowInfo',
+    // support change `proxyScrollHandler` after render <long-list>,
+    // for example, you can apply different debounce policies according to
+    // the length of list.
+    proxyScrollHandler (proxyScrollHandler) {
+      const {scrollParent} = this
+      let {scrollHandler} = this
+      if (!scrollParent) return
+      scrollParent.removeEventListener('scroll', scrollHandler, false)
+      this.scrollHandler = scrollHandler = proxyScrollHandler(this.updateFrame)
+      scrollParent.addEventListener('scroll', scrollHandler, false)
+    },
   },
 
   computed: {
@@ -151,7 +165,12 @@ export default {
     this.updateRowInfo()
 
     this.updateFrame()
-    this.scrollParent.addEventListener('scroll', this.updateFrame, false)
+    const {proxyScrollHandler} = this
+    this.scrollHandler =
+      proxyScrollHandler ?
+      proxyScrollHandler(this.updateFrame) :
+      this.updateFrame
+    this.scrollParent.addEventListener('scroll', this.scrollHandler, false)
   },
 
   methods: {
