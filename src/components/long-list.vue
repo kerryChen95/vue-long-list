@@ -85,8 +85,14 @@ export default {
   },
 
   watch: {
-    // for the case that `length` changes from 0 to a positive number.
-    length: 'updateRowInfo',
+    length () {
+      // for the case that `length` changes from 0 to a positive number.
+      this.updateRowInfo()
+      // otherwise, at the case that `length` is less than real items per row
+      // at begin, `renderLength` have no chance to update
+      // because the list is too short to be scrollable.
+      this.updateFrame()
+    },
     // support change `proxyScrollHandler` after render <long-list>,
     // for example, you can apply different debounce policies according to
     // the length of list.
