@@ -1,6 +1,6 @@
 {
   "name": "vue-long-list",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "High performance long list for Vue.js",
   "main": "dist/vue-long-list.js",
   "scripts": {
