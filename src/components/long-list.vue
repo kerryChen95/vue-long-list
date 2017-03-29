@@ -26,6 +26,9 @@ const OVERFLOW_MAP = {x: 'overflowX', y: 'overflowY'}
 const DEFAULT_ITEMS_PER_ROW = 1
 const DEFAULT_UNIFORM_SIZE_PER_ROW = 0
 
+const noop = () => {}
+const requestAnimationFrame = window.requestAnimationFrame || noop
+
 export default {
   props: {
     mode: {
@@ -182,10 +185,24 @@ export default {
   methods: {
     updateRowInfo () {
       const {mode} = this
-      this.itemsPerRow = this.calcItemsPerRow()
+      const oldItemsPerRow = this.itemsPerRow
+      const newItemsPerRow = this.updateItemsPerRow()
+      if (oldItemsPerRow === newItemsPerRow) {
+        // re-calc `itemsPerRow` before repaint, i.e. after render tree updated,
+        // because the re-calc needs access DOM.
+        // otherwise cause the bug that upholder get wrong height in the case
+        // that `length` change from 1 to 2 and first row's items count is
+        // greater than 2.
+        requestAnimationFrame(this.updateItemsPerRow)
+      }
       if (mode === 'uniform') {
         this.uniformSizePerRow = this.calcUniformSizePerRow()
       }
+    },
+
+    // only use this method to update `itemsPerRow`
+    updateItemsPerRow () {
+      return (this.itemsPerRow = this.calcItemsPerRow())
     },
 
     // @return {Number}
